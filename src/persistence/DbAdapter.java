@@ -2,8 +2,11 @@ package persistence;
 
 import business.Pessoa;
 import business.heranca.Veiculo;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  *
@@ -11,12 +14,8 @@ import java.util.ArrayList;
  */
 public class DbAdapter {
 
-    private String server = "62.28.39.135";
-    private String username = "Raquel";
-    private String password = "Silva1234";
-    private String dbname = "pessoasveiculos";
-
-    private String url = "jdbc:mysql://" + server + ":3306/" + dbname; // = string connection
+    Properties props = new Properties();
+    InputStream input = getClass().getResourceAsStream("/config.properties");
 
     private Connection conn = null;
 
@@ -26,8 +25,16 @@ public class DbAdapter {
      */
     public DbAdapter() {
         try {
+            props.load(input);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        String url = props.getProperty("db.url");
+        String user = props.getProperty("db.user");
+        String password = props.getProperty("db.password");
+        try {
 
-            conn = DriverManager.getConnection(url, username, password);
+            conn = DriverManager.getConnection(url, user, password);
             System.out.println("Ligação Estabelecida à BD com Sucesso!");
 
         } catch (SQLException e) {
