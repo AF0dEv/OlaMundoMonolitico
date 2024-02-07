@@ -2,8 +2,15 @@ package persistence;
 
 import business.Pessoa;
 import business.heranca.Veiculo;
+import com.sun.source.tree.TryTree;
+import java.awt.BorderLayout;
+import java.io.FileInputStream;
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  *
@@ -11,12 +18,8 @@ import java.util.ArrayList;
  */
 public class DbAdapter {
 
-    private String server = "62.28.39.135";
-    private String username = "Raquel";
-    private String password = "Silva1234";
-    private String dbname = "pessoasveiculos";
-
-    private String url = "jdbc:mysql://" + server + ":3306/" + dbname; // = string connection
+    private Properties prop = new Properties();
+    private InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties");
 
     private Connection conn = null;
 
@@ -26,14 +29,18 @@ public class DbAdapter {
      */
     public DbAdapter() {
         try {
-
-            conn = DriverManager.getConnection(url, username, password);
+            prop.load(input);
+            String url = prop.getProperty("db.url");
+            String user = prop.getProperty("db.user");
+            String password = prop.getProperty("db.password");
+            conn = DriverManager.getConnection(url, user, password);
             System.out.println("Ligação Estabelecida à BD com Sucesso!");
 
-        } catch (SQLException e) {
+        } catch (IOException e) {
 
             System.out.println(e.getMessage());
-
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
