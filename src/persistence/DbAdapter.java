@@ -2,6 +2,13 @@ package persistence;
 
 import business.Pessoa;
 import business.heranca.Veiculo;
+<<<<<<< HEAD
+=======
+import com.sun.source.tree.TryTree;
+import java.awt.BorderLayout;
+import java.io.FileInputStream;
+import java.io.FilterInputStream;
+>>>>>>> 5dbcc05fb717a592356552ddee04c2d9738a1f3a
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
@@ -14,8 +21,13 @@ import java.util.Properties;
  */
 public class DbAdapter {
 
+<<<<<<< HEAD
     Properties props = new Properties();
     InputStream input = getClass().getResourceAsStream("/config.properties");
+=======
+    private Properties prop = new Properties();
+    private InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties");
+>>>>>>> 5dbcc05fb717a592356552ddee04c2d9738a1f3a
 
     private Connection conn = null;
 
@@ -25,6 +37,7 @@ public class DbAdapter {
      */
     public DbAdapter() {
         try {
+<<<<<<< HEAD
             props.load(input);
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -34,13 +47,20 @@ public class DbAdapter {
         String password = props.getProperty("db.password");
         try {
 
+=======
+            prop.load(input);
+            String url = prop.getProperty("db.url");
+            String user = prop.getProperty("db.user");
+            String password = prop.getProperty("db.password");
+>>>>>>> 5dbcc05fb717a592356552ddee04c2d9738a1f3a
             conn = DriverManager.getConnection(url, user, password);
             System.out.println("Ligação Estabelecida à BD com Sucesso!");
 
-        } catch (SQLException e) {
+        } catch (IOException e) {
 
             System.out.println(e.getMessage());
-
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
