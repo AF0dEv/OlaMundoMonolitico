@@ -2,11 +2,17 @@ package persistence;
 
 import business.Pessoa;
 import business.heranca.Veiculo;
+import com.sun.source.tree.TryTree;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.PropertyResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,8 +20,8 @@ import java.util.Properties;
  */
 public class DbAdapter {
 
-    Properties prop = new Properties();
-    InputStream input;
+    FileInputStream input;
+    PropertyResourceBundle prop;
 
     private Connection conn = null;
 
@@ -24,17 +30,22 @@ public class DbAdapter {
      *
      */
     public DbAdapter() {
-        this.input = getClass().getClassLoader().getResourceAsStream("config.properties");
         try {
-            prop.load(input);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+            this.input = new FileInputStream("./resources/config.properties");
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DbAdapter.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
-        String url = prop.getProperty("db.url");
-        String user = prop.getProperty("db.user");
-        String password = prop.getProperty("db.password");
+
         try {
-            conn = DriverManager.getConnection(url, user, password);
+            this.prop = new PropertyResourceBundle(input);
+        } catch (IOException ex) {
+            Logger.getLogger(DbAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            conn = DriverManager.getConnection(prop.getString("db.url"), prop.getString("db.user"), prop.getString("db.password"));
             System.out.println("Ligação Estabelecida à BD com Sucesso!");
 
         } catch (SQLException ex) {
