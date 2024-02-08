@@ -38,8 +38,8 @@ public class ProgramController {
      *
      * @throws SQLException
      */
-    public void fillHashTableVeiculos() throws SQLException {
-        gv.fillHashTable();
+    public void fillArrayListVeiculos() throws SQLException {
+        gv.fillArrayList();
     }
 
     /**
@@ -100,7 +100,7 @@ public class ProgramController {
      *
      * @return
      */
-    public Hashtable<String, Veiculo> getVeiculos() {
+    public ArrayList<Veiculo> getVeiculos() {
         return gv.getVeiculos();
     }
 
@@ -109,7 +109,7 @@ public class ProgramController {
      * @param matricula
      * @return
      */
-    public Veiculo getVeiculo(String matricula) {
+    public Veiculo getVeiculo(String matricula) throws SQLException {
         return gv.getVeiculo(matricula);
     }
 

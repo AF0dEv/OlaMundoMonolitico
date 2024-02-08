@@ -1,7 +1,8 @@
 package presentation;
 
 import business.Pessoa;
-import business.heranca.Veiculo;
+import business.heranca.VeiculoCombustao;
+import business.heranca.VeiculoEletrico;
 import business.presentation.controller.ProgramController;
 import exceptions.MaximoVeiculosException;
 import exceptions.NomeInvalidoException;
@@ -21,6 +22,7 @@ public class StartConsole {
      *
      * @param args
      * @throws SQLException
+     * @throws exceptions.NomeInvalidoException
      */
     public static void main(String[] args) throws SQLException, NomeInvalidoException {
         // Estancianmento de Objeto
@@ -30,7 +32,7 @@ public class StartConsole {
         int var = 0;
         String key;
         pc.fillHashTablePessoas();
-        pc.fillHashTableVeiculos();
+        pc.fillArrayListVeiculos();
         // SWITCHCASE
         do {
 
@@ -153,51 +155,104 @@ public class StartConsole {
 
                         // Guardar Pessoa
                         p = pc.getPessoa(key);
-                        Veiculo v = new Veiculo();
-                        // Verificar se a Pessoa excede os 3 Veiculos
-                        try {
+                        Integer tipo = sc.nextInt();
+                        sc.nextLine();
+                        do {
+                            // Verificar o Tipo de Veiculo
+                            System.out.println("\nIndique o Tipo do Veiculo:\n");
+                            System.out.println("1: ELÉTRICO\n");
+                            System.out.println("2: COMBUSTÃO\n");
+                            System.out.println("0: CANCELAR\n\n");
 
-                            // MATRICULA
-                            System.out.println("Indique a Matricula do Veiculo: ");
-                            v.setMatricula(sc.nextLine());
+                            if (tipo == 1) {
+                                VeiculoEletrico ve = new VeiculoEletrico();
+                                // Verificar se a Pessoa excede os 3 Veiculos
+                                try {
 
-                            // MARCA
-                            System.out.println("Indique a Marca do Veiculo: ");
-                            v.setMarca(sc.nextLine());
+                                    // MATRICULA
+                                    System.out.println("Indique a Matricula do Veiculo: ");
+                                    ve.setMatricula(sc.nextLine());
 
-                            // MODELO
-                            System.out.println("Indique o Modelo do Veiculo: ");
-                            v.setModelo(sc.nextLine());
+                                    // MARCA
+                                    System.out.println("Indique a Marca do Veiculo: ");
+                                    ve.setMarca(sc.nextLine());
 
-                            // CILINDRADA
-                            System.out.println("Indique a Cilindrada do Veiculo: ");
-                            v.setCilindrada(sc.nextInt());
-                            sc.nextLine();
+                                    // MODELO
+                                    System.out.println("Indique o Modelo do Veiculo: ");
+                                    ve.setModelo(sc.nextLine());
 
-                            // Nº CHASSI
-                            System.out.println("Indique o Nº de Chassi do Veiculo: ");
-                            v.setnChassi(sc.nextInt());
-                            sc.nextLine();
+                                    // Nº CHASSI
+                                    System.out.println("Indique o Nº de Chassi do Veiculo: ");
+                                    ve.setnChassi(sc.nextInt());
+                                    sc.nextLine();
 
-                            // Nº LUGARES
-                            System.out.println("Indique o Nº de Lugares do Veiculo: ");
-                            v.setnLugares(sc.nextInt());
-                            sc.nextLine();
+                                    // Nº LUGARES
+                                    System.out.println("Indique o Nº de Lugares do Veiculo: ");
+                                    ve.setnLugares(sc.nextInt());
+                                    sc.nextLine();
 
-                            // Nº PORTAS
-                            System.out.println("Indique o Nº de Portas do Veiculo");
-                            v.setnPortas(sc.nextInt());
-                            sc.nextLine();
+                                    // Nº PORTAS
+                                    System.out.println("Indique o Nº de Portas do Veiculo");
+                                    ve.setnPortas(sc.nextInt());
+                                    sc.nextLine();
 
-                            // Guardar Veiculo na Pessoa
-                            p.setVeiculo(v);
+                                    // Guardar Veiculo na Pessoa
+                                    p.setVeiculo(ve);
 
-                            pc.addVeiculo(v, p.getCc());
+                                    pc.addVeiculo(ve, p.getCc());
 
-                        } catch (MaximoVeiculosException ex) {
-                            Logger.getLogger(StartConsole.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                                } catch (MaximoVeiculosException ex) {
+                                    Logger.getLogger(StartConsole.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            } else if (tipo == 2) {
+                                VeiculoCombustao vc = new VeiculoCombustao(0);
+                                // Verificar se a Pessoa excede os 3 Veiculos
+                                try {
 
+                                    // MATRICULA
+                                    System.out.println("Indique a Matricula do Veiculo: ");
+                                    vc.setMatricula(sc.nextLine());
+
+                                    // MARCA
+                                    System.out.println("Indique a Marca do Veiculo: ");
+                                    vc.setMarca(sc.nextLine());
+
+                                    // MODELO
+                                    System.out.println("Indique o Modelo do Veiculo: ");
+                                    vc.setModelo(sc.nextLine());
+
+                                    // CILINDRADA
+                                    System.out.println("Indique a Cilindrada do Veiculo: ");
+                                    vc.setCilindrada(sc.nextInt());
+                                    sc.nextLine();
+
+                                    // Nº CHASSI
+                                    System.out.println("Indique o Nº de Chassi do Veiculo: ");
+                                    vc.setnChassi(sc.nextInt());
+                                    sc.nextLine();
+
+                                    // Nº LUGARES
+                                    System.out.println("Indique o Nº de Lugares do Veiculo: ");
+                                    vc.setnLugares(sc.nextInt());
+                                    sc.nextLine();
+
+                                    // Nº PORTAS
+                                    System.out.println("Indique o Nº de Portas do Veiculo");
+                                    vc.setnPortas(sc.nextInt());
+                                    sc.nextLine();
+
+                                    // Guardar Veiculo na Pessoa
+                                    p.setVeiculo(vc);
+
+                                    pc.addVeiculo(vc, p.getCc());
+
+                                } catch (MaximoVeiculosException ex) {
+                                    Logger.getLogger(StartConsole.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            } else {
+                                System.out.println("Indique Opção válida");
+                            }
+                        } while (tipo != 0);
                     }
                     break;
 

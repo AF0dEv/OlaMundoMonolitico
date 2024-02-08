@@ -14,23 +14,49 @@ public class VeiculoCombustao extends Veiculo {
 
     private int cilindrada;
 
+    /**
+     *
+     * @param cilindrada
+     */
     public VeiculoCombustao(int cilindrada) {
         this.cilindrada = cilindrada;
     }
 
+    /**
+     *
+     * @param cilindrada
+     * @param matricula
+     * @param marca
+     * @param modelo
+     * @param nChassi
+     * @param nLugares
+     * @param nPortas
+     */
     public VeiculoCombustao(int cilindrada, String matricula, String marca, String modelo, Integer nChassi, Integer nLugares, Integer nPortas) {
         super(matricula, marca, modelo, nChassi, nLugares, nPortas);
         this.cilindrada = cilindrada;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCilindrada() {
         return cilindrada;
     }
 
+    /**
+     *
+     * @param cilindrada
+     */
     public void setCilindrada(int cilindrada) {
         this.cilindrada = cilindrada;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 5;
@@ -38,6 +64,11 @@ public class VeiculoCombustao extends Veiculo {
         return hash;
     }
 
+    /**
+     *
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -71,6 +102,10 @@ public class VeiculoCombustao extends Veiculo {
         return Objects.equals(this.getMatricula(), other.getMatricula());
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Veiculo Combustao: "

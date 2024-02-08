@@ -14,14 +14,31 @@ import java.util.Objects;
 public class VeiculoEletrico extends Veiculo {
 
     // CONSTRUTOR
+
+    /**
+     *
+     */
     public VeiculoEletrico() {
         super();
     }
 
+    /**
+     *
+     * @param matricula
+     * @param marca
+     * @param modelo
+     * @param nChassi
+     * @param nLugares
+     * @param nPortas
+     */
     public VeiculoEletrico(String matricula, String marca, String modelo, Integer nChassi, Integer nLugares, Integer nPortas) {
         super(matricula, marca, modelo, nChassi, nLugares, nPortas);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Veiculo Eletrico: "
@@ -33,6 +50,11 @@ public class VeiculoEletrico extends Veiculo {
                 + ",\nnPortas=" + getnPortas();
     }
 
+    /**
+     *
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -63,6 +85,10 @@ public class VeiculoEletrico extends Veiculo {
         return Objects.equals(this.getnPortas(), other.getnPortas());
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 7;

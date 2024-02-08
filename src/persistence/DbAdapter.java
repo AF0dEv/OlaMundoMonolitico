@@ -15,7 +15,7 @@ import java.util.Properties;
 public class DbAdapter {
 
     Properties prop = new Properties();
-    InputStream input = getClass().getResourceAsStream("/config.properties");
+    InputStream input;
 
     private Connection conn = null;
 
@@ -24,6 +24,7 @@ public class DbAdapter {
      *
      */
     public DbAdapter() {
+        this.input = getClass().getClassLoader().getResourceAsStream("config.properties");
         try {
             prop.load(input);
         } catch (IOException e) {

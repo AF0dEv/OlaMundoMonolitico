@@ -2,7 +2,6 @@ package tests;
 
 import business.heranca.Veiculo;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  *
@@ -36,11 +35,10 @@ public class TesteVeiculo {
         veiculo1.setModelo(modelo);
 
         // Definir CILINDRADA do Veiculo
-        System.out.println("Introduza a Cilindrada do Veiculo: ");
-        Integer cilindrada = sc.nextInt();
-        veiculo1.setCilindrada(cilindrada);
-        sc.nextLine();
-
+//        System.out.println("Introduza a Cilindrada do Veiculo: ");
+//        Integer cilindrada = sc.nextInt();
+//        veiculo1.setCilindrada(cilindrada);
+//        sc.nextLine();
         // Definir Nº CHASSI do Veiculo
         System.out.println("Introduza o Nº de Chassi do Veiculo: ");
         Integer nChassi = sc.nextInt();

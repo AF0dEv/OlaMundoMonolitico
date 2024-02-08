@@ -1,8 +1,10 @@
 package business;
 
 import business.heranca.Veiculo;
+import business.heranca.VeiculoCombustao;
+import business.heranca.VeiculoEletrico;
 import java.sql.*;
-import java.util.Hashtable;
+import java.util.ArrayList;
 import java.util.Objects;
 import persistence.DbWorker;
 
@@ -21,7 +23,7 @@ public class GestorVeiculos {
     private DbWorker dbw = new DbWorker();
 
     // Iniciar HashTable
-    private Hashtable<String, Veiculo> veiculos = new Hashtable<>();
+    private ArrayList<Veiculo> veiculos = new ArrayList<>();
 
     /**
      *
@@ -34,18 +36,28 @@ public class GestorVeiculos {
      *
      * @throws SQLException
      */
-    public void fillHashTable() throws SQLException {
+    public void fillArrayList() throws SQLException {
         ResultSet rs = dbw.getVeiculos();
+//        while (rs.next()) {
+//            Veiculo v = new Veiculo();
+//            v.setMatricula(rs.getString("idVeiculos"));
+//            v.setMarca(rs.getString("marca"));
+//            v.setModelo(rs.getString("modelo"));
+//            if (rs.getString("Tipos_idTipos") == "2") {
+//
+//            }
+//            v.setnChassi(rs.getInt("nChassi"));
+//            v.setnLugares(rs.getInt("nLugares"));
+//            v.setnPortas(rs.getInt("nPortas"));
+//            veiculos.put(v.getMatricula(), v);
+//        }
         while (rs.next()) {
-            Veiculo v = new Veiculo();
-            v.setMatricula(rs.getString("idVeiculos"));
-            v.setMarca(rs.getString("marca"));
-            v.setModelo(rs.getString("modelo"));
-            v.setCilindrada(rs.getInt("cilindrada"));
-            v.setnChassi(rs.getInt("nChassi"));
-            v.setnLugares(rs.getInt("nLugares"));
-            v.setnPortas(rs.getInt("nPortas"));
-            veiculos.put(v.getMatricula(), v);
+            if ("2".equals(rs.getString("Tipos_idTipos"))) {
+                veiculos.add(new VeiculoCombustao(rs.getInt("cilindrada"), rs.getString("matricula"), rs.getString("marca"), rs.getString("modelo"), rs.getInt("nChassi"), rs.getInt("nLugares"), rs.getInt("nPortas")));
+            } else {
+                veiculos.add(new VeiculoEletrico(rs.getString("matricula"), rs.getString("marca"), rs.getString("modelo"), rs.getInt("nChassi"), rs.getInt("nLugares"), rs.getInt("nPortas")));
+            }
+
         }
     }
 
@@ -53,7 +65,7 @@ public class GestorVeiculos {
      *
      * @return
      */
-    public Hashtable<String, Veiculo> getVeiculos() {
+    public ArrayList<Veiculo> getVeiculos() {
         return veiculos;
     }
 
@@ -62,8 +74,22 @@ public class GestorVeiculos {
      * @param matricula
      * @return
      */
-    public Veiculo getVeiculo(String matricula) {
-        return this.veiculos.get(matricula);
+    public Veiculo getVeiculo(String matricula) throws SQLException {
+        for (Veiculo veiculo : veiculos) {
+            if (veiculo.getMatricula() == matricula) {
+                return veiculo;
+            }
+            // ==================================================== \\
+            // FUTURALLY IMPLEMENT SYSTEM WHERE ARRAYLIST WILL DELETE THE LAST OBJ AND UPDATE WITH CURRENT USED ONES \\
+            // OBJECTIVE: INCREASE PERFORMANCE BY NOT USING DATABASE TOO MUCH DUE TO CONSTANT UPDATE OF ARRAYLIST \\
+
+            // ==================================================== \\
+//                int result = dbw.containsCar(veiculo);
+//                if (result > 0){
+//                    ResultSet rs = dbw.getVeiculos();
+        }
+        System.out.println("ERRO: VEICULO INEXISTENTE!");
+        return null;
     }
 
     /**
@@ -74,7 +100,7 @@ public class GestorVeiculos {
      */
     public void addVeiculo(Veiculo v, int Pessoas_idPessoas) throws SQLException {
         dbw.SaveCar(v, Pessoas_idPessoas);
-        this.veiculos.put(v.getMatricula(), v);
+        this.veiculos.add(v);
     }
 
     /**
@@ -85,7 +111,7 @@ public class GestorVeiculos {
     public void removeCar(Veiculo v) throws SQLException {
         int result = dbw.removeCar(v);
         if (result > 0) {
-            this.veiculos.remove(v.getMatricula());
+            this.veiculos.remove(v);
             System.out.println("Removido com Sucesso");
         } else {
             System.out.println("Veiculo não Removido");
