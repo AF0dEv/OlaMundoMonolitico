@@ -53,9 +53,9 @@ public class GestorVeiculos {
 //        }
         while (rs.next()) {
             if ("2".equals(rs.getString("Tipos_idTipos"))) {
-                veiculos.add(new VeiculoCombustao(rs.getInt("cilindrada"), rs.getString("matricula"), rs.getString("marca"), rs.getString("modelo"), rs.getInt("nChassi"), rs.getInt("nLugares"), rs.getInt("nPortas")));
+                veiculos.add(new VeiculoCombustao(rs.getInt("cilindrada"), rs.getString("idVeiculos"), rs.getString("marca"), rs.getString("modelo"), rs.getInt("nChassi"), rs.getInt("nLugares"), rs.getInt("nPortas")));
             } else {
-                veiculos.add(new VeiculoEletrico(rs.getString("matricula"), rs.getString("marca"), rs.getString("modelo"), rs.getInt("nChassi"), rs.getInt("nLugares"), rs.getInt("nPortas")));
+                veiculos.add(new VeiculoEletrico(rs.getString("idVeiculos"), rs.getString("marca"), rs.getString("modelo"), rs.getInt("nChassi"), rs.getInt("nLugares"), rs.getInt("nPortas")));
             }
 
         }
@@ -73,6 +73,7 @@ public class GestorVeiculos {
      *
      * @param matricula
      * @return
+     * @throws java.sql.SQLException
      */
     public Veiculo getVeiculo(String matricula) throws SQLException {
         for (Veiculo veiculo : veiculos) {
@@ -94,28 +95,45 @@ public class GestorVeiculos {
 
     /**
      *
-     * @param v
+     * @param vc
+     * @param ve
      * @param Pessoas_idPessoas
      * @throws java.sql.SQLException
      */
-    public void addVeiculo(Veiculo v, int Pessoas_idPessoas) throws SQLException {
-        dbw.SaveCar(v, Pessoas_idPessoas);
-        this.veiculos.add(v);
+    public void addVeiculo(VeiculoCombustao vc, VeiculoEletrico ve, int Pessoas_idPessoas) throws SQLException {
+        dbw.SaveCar(vc, ve, Pessoas_idPessoas);
+        if (vc != null) {
+            this.veiculos.add(vc);
+        } else if (ve != null) {
+            this.veiculos.add(ve);
+        }
     }
 
     /**
      *
-     * @param v
+     * @param vc
+     * @param ve
      * @throws java.sql.SQLException
      */
-    public void removeCar(Veiculo v) throws SQLException {
-        int result = dbw.removeCar(v);
-        if (result > 0) {
-            this.veiculos.remove(v);
-            System.out.println("Removido com Sucesso");
-        } else {
-            System.out.println("Veiculo não Removido");
+    public void removeCar(VeiculoCombustao vc, VeiculoEletrico ve) throws SQLException {
+        if (vc != null) {
+            int result = dbw.removeCar(vc, ve);
+            if (result > 0) {
+                this.veiculos.remove(vc);
+                System.out.println("Removido com Sucesso");
+            } else {
+                System.out.println("Veiculo não Removido");
+            }
+        } else if (ve != null) {
+            int result = dbw.removeCar(vc, ve);
+            if (result > 0) {
+                this.veiculos.remove(ve);
+                System.out.println("Removido com Sucesso");
+            } else {
+                System.out.println("Veiculo não Removido");
+            }
         }
+
     }
 
     /**
@@ -126,7 +144,12 @@ public class GestorVeiculos {
     public void removerVeiculo(String matricula) throws SQLException {
         int result = dbw.removeCar(matricula);
         if (result > 0) {
-            this.veiculos.remove(matricula);
+            for (Veiculo veiculo : veiculos) {
+                if (veiculo.getMatricula().equals(matricula)) {
+                    veiculos.remove(veiculo);
+                    break;
+                }
+            }
         } else {
             System.out.println("Veiculo não Removido");
         }
@@ -134,12 +157,13 @@ public class GestorVeiculos {
 
     /**
      *
-     * @param v
+     * @param vc
+     * @param ve
      * @return
      * @throws java.sql.SQLException
      */
-    public int containsVeiculo(Veiculo v) throws SQLException {
-        return dbw.containsCar(v);
+    public int containsVeiculo(VeiculoCombustao vc, VeiculoEletrico ve) throws SQLException {
+        return dbw.containsCar(vc, ve);
     }
 
     /**

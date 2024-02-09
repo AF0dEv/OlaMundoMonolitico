@@ -1,7 +1,8 @@
 package persistence;
 
 import business.Pessoa;
-import business.heranca.Veiculo;
+import business.heranca.VeiculoCombustao;
+import business.heranca.VeiculoEletrico;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -45,12 +46,13 @@ public class DbWorker {
 
     /**
      *
-     * @param v
+     * @param vc
+     * @param ve
      * @param Pessoas_idPessoas
      * @throws SQLException
      */
-    public void SaveCar(Veiculo v, int Pessoas_idPessoas) throws SQLException {
-        dba.saveCar(v, Pessoas_idPessoas);
+    public void SaveCar(VeiculoCombustao vc, VeiculoEletrico ve, int Pessoas_idPessoas) throws SQLException {
+        dba.saveCar(vc, ve, Pessoas_idPessoas);
     }
 
     /**
@@ -82,12 +84,13 @@ public class DbWorker {
 
     /**
      *
-     * @param v
+     * @param vc
+     * @param ve
      * @return
      * @throws SQLException
      */
-    public int removeCar(Veiculo v) throws SQLException {
-        return dba.removeCar(v);
+    public int removeCar(VeiculoCombustao vc, VeiculoEletrico ve) throws SQLException {
+        return dba.removeCar(vc, ve);
     }
 
     /**
@@ -116,18 +119,19 @@ public class DbWorker {
      * @return
      * @throws SQLException
      */
-    public int removePerson(String cc) throws SQLException {
+    public int removePerson(Integer cc) throws SQLException {
         return dba.removePerson(cc);
     }
 
     /**
      *
-     * @param v
+     * @param vc
+     * @param ve
      * @return
      * @throws SQLException
      */
-    public int containsCar(Veiculo v) throws SQLException {
-        return dba.containsCar(v);
+    public int containsCar(VeiculoCombustao vc, VeiculoEletrico ve) throws SQLException {
+        return dba.containsCar(vc, ve);
     }
 
     /**

@@ -2,14 +2,8 @@ package tests;
 
 import business.Pessoa;
 import business.heranca.Veiculo;
-import exceptions.NomeInvalidoException;
-import java.net.Inet4Address;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -42,11 +36,8 @@ public class TestePessoa {
         // Definir nome da Pessoa
         System.out.print("Introduza um nome: ");
         String nome = sc.nextLine();
-        try {
-            pessoa.setNome(nome);
-        } catch (NomeInvalidoException ex) {
-            Logger.getLogger(TestePessoa.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        pessoa.setNome(nome);
 
         // Definir idade
         System.out.print("Introduza uma idade: ");

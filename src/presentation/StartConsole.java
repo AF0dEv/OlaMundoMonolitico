@@ -30,7 +30,7 @@ public class StartConsole {
         Scanner sc = new Scanner(System.in);
 
         int var = 0;
-        String key;
+        Integer cc;
         pc.fillHashTablePessoas();
         pc.fillArrayListVeiculos();
         // SWITCHCASE
@@ -69,17 +69,15 @@ public class StartConsole {
 
                     // Scan KEY HashTable
                     System.out.println("\nIntroduza Nº Cartão Cidadão: ");
-                    Integer cc = sc.nextInt();
+                    cc = sc.nextInt();
                     sc.nextLine();
                     p.setCc(cc);
 
                     // Scan nome e Validação
                     System.out.println("\nIntroduza o Nome: ");
                     nome = sc.nextLine();
-                    try {
-                        p.setNome(nome);
-                    } catch (NomeInvalidoException e) {
-                    }
+
+                    p.setNome(nome);
 
                     // Scan idade
                     System.out.print("\nIntroduza uma idade: ");
@@ -102,7 +100,6 @@ public class StartConsole {
                         }
 
                     } while (!contacto.equals(""));
-                    System.out.println(p.getNome());
                     // Adicionar Pessoa
                     pc.addPessoa(p);
                     // Guardar Contactos
@@ -120,16 +117,18 @@ public class StartConsole {
 
                     // Saber Nº CC
                     System.out.println("\nIntroduza o Nº Cartão Cidadão da Pessoa a Eliminar\n");
-                    key = sc.nextLine();
+                    cc = sc.nextInt();
+                    sc.nextLine();
+                    p = pc.getPessoa(cc);
 
                     // Verificar se Existe a Pessoa
-                    if (!pc.getPessoas().containsKey(key)) {
+                    if (!pc.getPessoas().contains(p)) {
                         System.out.println("\nNº Cartão Cidadão Inexistente\n");
 
                         // Se existir Remover
                     } else {
 
-                        pc.removerPessoa(key);
+                        pc.removerPessoa(cc);
 
                         // Apresentar Pessoas
                         System.out.println(pc.getPessoas());
@@ -146,23 +145,27 @@ public class StartConsole {
 
                     // Mostrar Lista de Pessoas
                     System.out.println(pc.getPessoas());
-                    key = sc.nextLine();
+                    cc = sc.nextInt();
+                    sc.nextLine();
+                    p = pc.getPessoa(cc);
 
-                    if (!pc.getPessoas().containsKey(key)) {
+                    // Verificar se Existe a Pessoa
+                    if (!pc.getPessoas().contains(p)) {
                         System.out.println("\nNº Cartão Cidadão Inexistente\n");
 
                     } else {
 
                         // Guardar Pessoa
-                        p = pc.getPessoa(key);
-                        Integer tipo = sc.nextInt();
-                        sc.nextLine();
+                        p = pc.getPessoa(cc);
+                        Integer tipo = null;
                         do {
                             // Verificar o Tipo de Veiculo
                             System.out.println("\nIndique o Tipo do Veiculo:\n");
                             System.out.println("1: ELÉTRICO\n");
                             System.out.println("2: COMBUSTÃO\n");
                             System.out.println("0: CANCELAR\n\n");
+                            tipo = sc.nextInt();
+                            sc.nextLine();
 
                             if (tipo == 1) {
                                 VeiculoEletrico ve = new VeiculoEletrico();
@@ -197,9 +200,9 @@ public class StartConsole {
                                     sc.nextLine();
 
                                     // Guardar Veiculo na Pessoa
-                                    p.setVeiculo(ve);
+                                    p.setVeiculo(null, ve);
 
-                                    pc.addVeiculo(ve, p.getCc());
+                                    pc.addVeiculo(null, ve, p.getCc());
 
                                 } catch (MaximoVeiculosException ex) {
                                     Logger.getLogger(StartConsole.class.getName()).log(Level.SEVERE, null, ex);
@@ -242,9 +245,9 @@ public class StartConsole {
                                     sc.nextLine();
 
                                     // Guardar Veiculo na Pessoa
-                                    p.setVeiculo(vc);
+                                    p.setVeiculo(vc, null);
 
-                                    pc.addVeiculo(vc, p.getCc());
+                                    pc.addVeiculo(vc, null, p.getCc());
 
                                 } catch (MaximoVeiculosException ex) {
                                     Logger.getLogger(StartConsole.class.getName()).log(Level.SEVERE, null, ex);
@@ -265,16 +268,17 @@ public class StartConsole {
 
                     // Mostrar Lista de Pessoas
                     System.out.println(pc.getPessoas());
-                    key = sc.nextLine();
-
-                    if (!pc.getPessoas().containsKey(key)) {
+                    cc = sc.nextInt();
+                    sc.nextLine();
+                    p = pc.getPessoa(cc);
+                    if (!pc.getPessoas().contains(p)) {
                         System.out.println("\nNº Cartão Cidadão Inexistente\n");
 
                         // Se existir Remover
                     } else {
 
                         // Guardar Pessoa
-                        p = pc.getPessoa(key);
+                        p = pc.getPessoa(cc);
 
                         // Verificar se a Pessoa tem Automoveis
                         if (p.getVeiculos().isEmpty()) {
@@ -312,14 +316,16 @@ public class StartConsole {
 
                     // Mostrar Lista de Pessoas
                     System.out.println(pc.getPessoas());
-                    key = sc.nextLine();
+                    cc = sc.nextInt();
+                    sc.nextLine();
+                    p = pc.getPessoa(cc);
 
-                    if (!pc.getPessoas().containsKey(key)) {
+                    if (!pc.getPessoas().contains(p)) {
                         System.out.println("\nNº Cartão Cidadão Inexistente\n");
 
                         // Se existir Remover
                     } else {
-                        p = pc.getPessoa(key);
+                        p = pc.getPessoa(cc);
                         System.out.println(p.getVeiculos().toString());
                     }
 

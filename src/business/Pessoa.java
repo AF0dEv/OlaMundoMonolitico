@@ -1,8 +1,9 @@
 package business;
 
 import business.heranca.Veiculo;
+import business.heranca.VeiculoCombustao;
+import business.heranca.VeiculoEletrico;
 import exceptions.MaximoVeiculosException;
-import exceptions.NomeInvalidoException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -68,14 +69,14 @@ public class Pessoa {
      * @param nome new value of string
      * @throws exceptions.NomeInvalidoException
      */
-    public void setNome(String nome) throws NomeInvalidoException {
-        if (nome.length() == 0) {
-            throw new NomeInvalidoException("O nome nao pode ser vazio");
-        }
-
-        if (nome.length() < 6) {
-            throw new NomeInvalidoException("O nome tem de Possuir mais de 6 carateres");
-        }
+    public void setNome(String nome) { //throws NomeInvalidoException
+//        if (nome.length() == 0) {
+//            throw new NomeInvalidoException("O nome nao pode ser vazio");
+//        }
+//
+//        if (nome.length() < 6) {
+//            throw new NomeInvalidoException("O nome tem de Possuir mais de 6 carateres");
+//        }
 
         this.nome = nome;
     }
@@ -128,14 +129,21 @@ public class Pessoa {
 
     /**
      *
-     * @param veiculo
+     * @param vc
+     * @param ve
      * @throws exceptions.MaximoVeiculosException
      */
-    public void setVeiculo(Veiculo veiculo) throws MaximoVeiculosException {
+    public void setVeiculo(VeiculoCombustao vc, VeiculoEletrico ve) throws MaximoVeiculosException {
+
         if (veiculos.size() > 2) {
             throw new MaximoVeiculosException("Uma pessoa Não pode ter mais de 3 Veiculos!");
         } else {
-            veiculos.add(veiculo);
+            if (vc != null) {
+                veiculos.add(vc);
+            } else if (ve != null) {
+                veiculos.add(ve);
+            }
+
         }
 
     }

@@ -4,10 +4,11 @@ import business.GestorPessoas;
 import business.GestorVeiculos;
 import business.Pessoa;
 import business.heranca.Veiculo;
+import business.heranca.VeiculoCombustao;
+import business.heranca.VeiculoEletrico;
 import exceptions.NomeInvalidoException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Objects;
 
 /**
@@ -31,7 +32,7 @@ public class ProgramController {
      * @throws exceptions.NomeInvalidoException
      */
     public void fillHashTablePessoas() throws SQLException, NomeInvalidoException {
-        gp.fillHashTable();
+        gp.fillArrayList();
     }
 
     /**
@@ -46,7 +47,7 @@ public class ProgramController {
      *
      * @return
      */
-    public Hashtable<String, Pessoa> getPessoas() {
+    public ArrayList<Pessoa> getPessoas() {
         return gp.getPessoas();
     }
 
@@ -55,7 +56,7 @@ public class ProgramController {
      * @param cc
      * @return
      */
-    public Pessoa getPessoa(String cc) {
+    public Pessoa getPessoa(int cc) {
         return gp.getPessoa(cc);
     }
 
@@ -73,7 +74,7 @@ public class ProgramController {
      * @param cc
      * @throws java.sql.SQLException
      */
-    public void removerPessoa(String cc) throws SQLException {
+    public void removerPessoa(Integer cc) throws SQLException {
         gp.removerPessoa(cc);
     }
 
@@ -108,6 +109,7 @@ public class ProgramController {
      *
      * @param matricula
      * @return
+     * @throws java.sql.SQLException
      */
     public Veiculo getVeiculo(String matricula) throws SQLException {
         return gv.getVeiculo(matricula);
@@ -115,21 +117,23 @@ public class ProgramController {
 
     /**
      *
-     * @param v
+     * @param vc
+     * @param ve
      * @param Pessoas_idPessoas
      * @throws java.sql.SQLException
      */
-    public void addVeiculo(Veiculo v, int Pessoas_idPessoas) throws SQLException {
-        gv.addVeiculo(v, Pessoas_idPessoas);
+    public void addVeiculo(VeiculoCombustao vc, VeiculoEletrico ve, int Pessoas_idPessoas) throws SQLException {
+        gv.addVeiculo(vc, ve, Pessoas_idPessoas);
     }
 
     /**
      *
-     * @param v
+     * @param vc
+     * @param ve
      * @throws java.sql.SQLException
      */
-    public void removerVeiculo(Veiculo v) throws SQLException {
-        gv.removeCar(v);
+    public void removerVeiculo(VeiculoCombustao vc, VeiculoEletrico ve) throws SQLException {
+        gv.removeCar(vc, ve);
     }
 
     /**
@@ -162,12 +166,13 @@ public class ProgramController {
 
     /**
      *
-     * @param v
+     * @param vc
+     * @param ve
      * @return
      * @throws java.sql.SQLException
      */
-    public int containsVeiculo(Veiculo v) throws SQLException {
-        return gv.containsVeiculo(v);
+    public int containsVeiculo(VeiculoCombustao vc, VeiculoEletrico ve) throws SQLException {
+        return gv.containsVeiculo(vc, ve);
     }
 
     /**

@@ -1,6 +1,5 @@
 package tests;
 
-import exceptions.NomeInvalidoException;
 import business.Pessoa;
 import java.util.Hashtable;
 
@@ -19,10 +18,9 @@ public class TestHashTable {
         Hashtable<Integer, Pessoa> pessoas = new Hashtable<>();
 
         Pessoa p = new Pessoa("", 0);
-        try {
-            p.setNome("Afonso");
-        } catch (NomeInvalidoException e) {
-        }
+
+        p.setNome("Afonso");
+
         pessoas.put(1, p);
 
         for (Integer id : pessoas.keySet()) {

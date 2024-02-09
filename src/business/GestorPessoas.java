@@ -3,7 +3,6 @@ package business;
 import exceptions.NomeInvalidoException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Objects;
 import persistence.DbWorker;
 
@@ -22,7 +21,7 @@ public class GestorPessoas {
     private DbWorker dbw = new DbWorker();
 
     // Iniciar HashTable
-    private Hashtable<String, Pessoa> pessoas = new Hashtable<>();
+    private ArrayList<Pessoa> pessoas = new ArrayList<>();
 
     /**
      *
@@ -36,14 +35,14 @@ public class GestorPessoas {
      * @throws SQLException
      * @throws exceptions.NomeInvalidoException
      */
-    public void fillHashTable() throws SQLException, NomeInvalidoException {
+    public void fillArrayList() throws SQLException, NomeInvalidoException {
         ResultSet rs = dbw.getPessoas();
         while (rs.next()) {
             Pessoa p = new Pessoa();
             p.setCc(rs.getInt("idPessoas"));
             p.setNome(rs.getString("nome"));
             p.setIdade(rs.getInt("idade"));
-            pessoas.put(p.getCc().toString(), p);
+            pessoas.add(p);
 
         }
 
@@ -61,7 +60,7 @@ public class GestorPessoas {
      *
      * @return
      */
-    public Hashtable<String, Pessoa> getPessoas() {
+    public ArrayList<Pessoa> getPessoas() {
         return pessoas;
     }
 
@@ -70,8 +69,14 @@ public class GestorPessoas {
      * @param cc
      * @return
      */
-    public Pessoa getPessoa(String cc) {
-        return this.pessoas.get(cc);
+    public Pessoa getPessoa(int cc) {
+        for (Pessoa pessoa : pessoas) {
+            if (pessoa.getCc() == cc) {
+                return pessoa;
+            }
+
+        }
+        return null;
     }
 
     /**
@@ -81,7 +86,7 @@ public class GestorPessoas {
      */
     public void addPessoa(Pessoa p) throws SQLException {
         dbw.savePerson(p);
-        this.pessoas.put(p.getCc().toString(), p);
+        this.pessoas.add(p);
     }
 
     /**
@@ -89,14 +94,19 @@ public class GestorPessoas {
      * @param cc
      * @throws java.sql.SQLException
      */
-    public void removerPessoa(String cc) throws SQLException {
-        int result = dbw.removePerson(cc);
-        if (result > 0) {
-            this.pessoas.remove(cc);
-            System.out.println("Pessoa Removida com Sucesso");
-        } else {
-            System.out.println("Pessoa Não Removida");
+    public void removerPessoa(Integer cc) {
+        try {
+            int result = dbw.removePerson(cc);
+            if (result > 0) {
+                this.pessoas.remove(cc);
+                System.out.println("Pessoa Removida com Sucesso");
+            } else {
+                System.out.println("Pessoa Não Removida");
+            }
+        } catch (SQLException e) {
+            System.out.println("Não é Possivel Remover esta Pessoa, Dados Pendentes");
         }
+
     }
 
     /**
