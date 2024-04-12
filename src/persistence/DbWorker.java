@@ -18,7 +18,7 @@ public class DbWorker {
      *
      */
     public DbWorker() {
-        DbAdapter dba = new DbAdapter();
+
     }
 
     /**
